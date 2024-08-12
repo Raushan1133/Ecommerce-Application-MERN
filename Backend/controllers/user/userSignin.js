@@ -27,7 +27,6 @@ async function userSignIn(req,res){
             httpOnly:true,
             secure:true,
             sameSite : 'None',
-            Secure
          }
          res.cookie("token",token,tokenOption).status(200).json({
             message:"Login Successfully",
