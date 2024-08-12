@@ -25,7 +25,8 @@ async function userSignIn(req,res){
          const token = await jwt.sign(tokenData,process.env.JWT_SECRET_KEY,{expiresIn:'30d'});
          const tokenOption = {
             httpOnly:true,
-            secure:true
+            secure:true,
+            sameSite : 'None'
          }
          res.cookie("token",token,tokenOption).status(200).json({
             message:"Login Successfully",
