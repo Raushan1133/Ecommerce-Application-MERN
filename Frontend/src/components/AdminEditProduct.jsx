@@ -35,7 +35,6 @@ const AdminEditProduct = ({onClose,productData,fetchData}) => {
     const handleUploadProduct = async (e)=>{
         const file = e.target.files[0];
         const uploadImageCloudinary = await uploadImage(file)
-        console.log(uploadImageCloudinary)
         setData((preve)=>{
             return{
                 ...preve,
@@ -69,7 +68,6 @@ const AdminEditProduct = ({onClose,productData,fetchData}) => {
 
         const responseData = await response.json()
         
-        console.log("Uploaded product: ",responseData)
         if(responseData?.success){
             toast.success(responseData?.message);
             onClose();
@@ -77,7 +75,6 @@ const AdminEditProduct = ({onClose,productData,fetchData}) => {
         }
         if(responseData?.error){
             toast(responseData?.message)
-            console.log(responseData)
         }
     }
   return (

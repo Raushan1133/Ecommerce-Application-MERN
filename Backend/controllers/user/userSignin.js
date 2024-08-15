@@ -38,7 +38,6 @@ async function userSignIn(req,res){
             throw new Error("Please check the password.")
         }
     } catch (error) {
-        console.log(error)
         res.json({
             message:error.message || error,
             error:true,

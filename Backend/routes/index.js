@@ -25,12 +25,19 @@ const filterProduct = require('../controllers/product/filterProduct');
 const paymentController = require('../controllers/order/paymentController');
 const webhooks = require('../controllers/order/webhook');
 const orderController = require('../controllers/order/order.controller');
+const allOrders = require('../controllers/order/allOrders');
+const sendPasswordResetEmail = require('../controllers/user/sendResetPasswordEmail');
+const resetPassword = require('../controllers/user/resetPassword');
+const updateUserProfile = require('../controllers/user/updateUserProfile');
 
 // User Auth
 router.post("/signup",userSignUp)
 router.post("/signin",userSignIn)
 router.get("/user-details",authToken,userDetails)
 router.get("/userLogout",userLogout)
+router.post("/update-profile",authToken,updateUserProfile);
+router.post("/send-password-email",sendPasswordResetEmail);
+router.post("/reset-password",resetPassword);
 
 // Admin Panel
 router.get("/all-user",authToken,allUsers)
@@ -57,6 +64,7 @@ router.post("/delete-cart-product",authToken,deleteAddToCart)
 router.post('/checkout', authToken,paymentController);
 router.post('/webhook',webhooks) //api/webhook
 router.get("/order-list" , authToken,orderController);
+router.get("/all-orders" , authToken,allOrders);
 
 
 module.exports = router;

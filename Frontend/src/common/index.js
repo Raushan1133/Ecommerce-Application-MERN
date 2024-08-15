@@ -83,6 +83,22 @@ const SummaryApi = {
     getOrder : {
         url:`${backendDomain}/api/order-list`,
         method:'get'
+    },
+    getAllOrders : {
+        url:`${backendDomain}/api/all-orders`,
+        method:'get'
+    },
+    sendPassword:{
+        url:`${backendDomain}/api/send-password-email`,
+        method:'post'
+    },
+    resetPassword:{
+        url:`${backendDomain}/api/reset-password`,
+        method:'post'
+    },
+    updateUserProfile:{
+        url:`${backendDomain}/api/update-profile`,
+        method:'post'
     }
 
 }

@@ -22,6 +22,7 @@ const CategoryProduct = () => {
     const[sortBy,setSortBy] = useState("")
 
     const fetchData = async ()=>{
+      setLoading(true);
       const response = await fetch(SummaryApi.filterProduct.url,{
         method: SummaryApi.filterProduct.method,
         headers:{
@@ -33,6 +34,7 @@ const CategoryProduct = () => {
       })
 
       const dataResponse = await response.json();
+      setLoading(false)
       setData(dataResponse?.data || []);
     }
 

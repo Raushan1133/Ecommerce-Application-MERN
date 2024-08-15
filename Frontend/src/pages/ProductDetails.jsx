@@ -21,6 +21,7 @@ const ProductDetails = () => {
 
   const params = useParams();
   const[loading,setLoading] = useState(false)
+  const [addToCartLoading , setAddToCartLoading] = useState(false)
   const productImageLoading = new Array(4).fill(null);
   const [activeImage , setActiveImage] = useState("");
   const fetchProductDetails = async ()=>{
@@ -73,17 +74,21 @@ const ProductDetails = () => {
     setZoomImage(false);
   }
   const handleAddToCart = async(e,id)=>{
+    setAddToCartLoading(true)
     await addToCart(e,id);
+    setAddToCartLoading(false);
     fetchUserAddToCart();
   }
 
   const handleBuyProduct = async(e,id)=>{
+    setAddToCartLoading(true)
     await addToCart(e,id);
+    setAddToCartLoading(false);
     fetchUserAddToCart();
     navigate("/cart");
   }
   return (
-    <div className='container mx-auto md:p-4 pb-4 pt-12'>
+    <div className='container mx-auto md:p-4 pb-4 pt-12 px-4'>
 
       <div className='min-h-[200px] flex flex-col lg:flex-row gap-4 '>
         {/* Product image */}
@@ -126,7 +131,7 @@ const ProductDetails = () => {
                       data?.productImage?.map((imageUrl,index)=>{
                         return (
                           <div key={imageUrl} className='h-20 w-20 bg-slate-200 rounded p-1'>
-                            <img src={imageUrl} alt="imageUrl" className=' cursor-pointer w-full h-full object-scale-down mix-blend-multiply' onMouseEnter={()=>handleMouseEnter(imageUrl)} onClick={()=>handleMouseEnter(imageUrl)}/>
+                            <img src={imageUrl} alt="Loading" className=' cursor-pointer w-full h-full object-scale-down mix-blend-multiply' onMouseEnter={()=>handleMouseEnter(imageUrl)} onClick={()=>handleMouseEnter(imageUrl)}/>
                           </div>
                         )
                       })
@@ -203,6 +208,18 @@ const ProductDetails = () => {
           <CategroyWiseProductDisplay category={data?.category} heading={"Recommended Product"}/>
         )
       }
+
+{
+            addToCartLoading && (
+                <div className='flex justify-center items-center w-full h-[100vh] fixed  top-0 bottom-0 right-0 left-0 '>
+                    <div className='bg-white h-24  w-24 gap-1 flex justify-center  items-center rounded flex-col'>
+                    <div className='h-6 w-6 border-[3px] rounded-full animate-spin text-center border-red-600 border-t-[transparent]'>
+                    </div>
+                        <p className='text-xs'>Adding to cart</p>
+                    </div>
+                 </div>
+            )
+         }
     </div>
   )
 }

@@ -4,6 +4,7 @@ import Context from '../context';
 import dispalyINRcurrency from '../helpers/DisplayCurrency';
 import {MdDelete} from 'react-icons/md'
 import {loadStripe} from '@stripe/stripe-js'
+import emptyCart1 from '../assest/empty-cart.gif'
 
 const Cart = () => {
     const [data,setData] = useState([]);
@@ -28,15 +29,15 @@ const Cart = () => {
         setLoading(false)
     }
 
-    const handleLoading = async ()=>{
-        await fetchData();
-    }
+    // const handleLoading = async ()=>{
+    //     await fetchData();
+    // }
 
-    useEffect(()=>{
-      setLoading(true)
-      handleLoading();
-      setLoading(false)
-    },[])
+    useEffect(()=>{ 
+        // setLoading(true)
+        fetchData();
+    //    setLoading(false)
+    },[]) 
 
     const increaseQty = async(id , qty)=>{
         const response = await fetch(SummaryApi.updateCart.url,{
@@ -70,7 +71,6 @@ const Cart = () => {
                 })
             })
             const responseData = await response.json();
-            console.log( "Response data",responseData)
             if(responseData.success){
                 fetchData();
             }
@@ -112,24 +112,16 @@ const Cart = () => {
         if(responseData?.id){
             stripePromise.redirectToCheckout({sessionId : responseData.id});
         }
-        console.log("Payment response: ", responseData)
     }
 
     const totalQty = data.reduce((previousValue,currentValue)=>previousValue + currentValue.quantity,0)
     const totalPrice = data.reduce((prev,curr)=>prev + (curr.quantity * curr?.productId?.sellingPrice) , 0)
   return (
     <div className='container mx-auto'>
-      <div className='text-center text-lg my-3'>
-      {
-        data.length === 0 && !loading && (
-            <p className='bg-white py-5'>Cart Is Empty</p>
-        )
-      }
-      </div>
-
-      <div className='flex flex-col lg:flex-row gap-10 lg:justify-between p-4'>
+ 
+      <div className='flex flex-col lg:flex-row gap-10 lg:justify-between md:p-4 pb-4 pt-10'>
         {/* View Products */}
-        <div className='max-w-3xl w-full'>
+        <div className='max-w-3xl w-full px-2'>
             {
                 loading ? (
                     loadingCart?.map((el,index)=>{
@@ -142,7 +134,7 @@ const Cart = () => {
                 ):(
                   data?.map((product,index)=>{
                     return(
-                        <div  key={product?._id+index} className='w-full bg-white h-32 my-2 border border-slate-300  rounded grid grid-cols-[128px,1fr]'>
+                        <div  key={product?._id+index} className='w-full bg-white h-32 my-2 border border-slate-300   rounded grid grid-cols-[128px,1fr]'>
                             <div className='w-32 h-32 bg-slate-200'>
                                 <img src={product?.productId?.productImage[0]} className='w-full h-full object-scale-down mix-blend-multiply' alt="" />
                             </div>
@@ -180,7 +172,7 @@ const Cart = () => {
         </div>
 
             ):(
-            <div className='h-fit bg-white'>
+            <div className='h-fit bg-white px-2 md:px-0'>
                 <h2 className='text-white bg-red-600 px-4 py-1'>Summary</h2>
                 <div className='flex items-center justify-between px-4 gap-2 font-medium text-lg text-slate-600' >
                     <p>Quantity</p>
@@ -199,6 +191,19 @@ const Cart = () => {
 
                 )
             }
+
+      </div>
+      <div className='text-center text-lg my-3'>
+      {
+         !loading && !data[0]  && (
+            <div className=''>
+                <p className='py-5 text-red-600 font-semibold text-xl'>Cart Is Empty !</p>
+                <div className='flex justify-center'>
+                    <img src={emptyCart1} className='mix-blend-multiply' alt="" />
+                </div>
+            </div>
+        )
+      }
       </div>
     </div>
   )

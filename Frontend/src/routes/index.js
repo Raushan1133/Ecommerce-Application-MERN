@@ -15,6 +15,8 @@ import Success from '../pages/Success';
 import Cancel from '../pages/Cancel';
 import OrderPage from '../pages/OrderPage';
 import Profile from '../pages/Profile';
+import AllOrders from '../pages/AllOrders';
+import ResetPasswordPage from '../pages/ResetPasswordPage';
 const router = createBrowserRouter([
     {
         path:"/",
@@ -31,10 +33,6 @@ const router = createBrowserRouter([
             {
                 path:'login',
                 element:<Login />
-            },
-            {
-                path:"forgot-password",
-                element: <ForgotPassword />
             },
             {
                 path:'sign-up',
@@ -69,6 +67,14 @@ const router = createBrowserRouter([
                 element:<SearchProduct />
             },
             {
+                path:'forgot-password',
+                element:<ForgotPassword />
+            },
+            {
+                path:'api/user/reset-password/:userId/:token',
+                element:<ResetPasswordPage />
+            },
+            {
                 path:'/admin-panel',
                 element:<AdminPanel />,
                 children:[
@@ -79,6 +85,10 @@ const router = createBrowserRouter([
                     {
                         path:'all-products',
                         element:<AllProduct />
+                    },
+                    {
+                        path:'all-orders',
+                        element:<AllOrders />
                     }
                 ]
             }

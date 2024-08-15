@@ -24,7 +24,9 @@ const CategoryList = () => {
         loading ?(
             categoryLoading?.map((el,index)=>{
             return(
-                <div className='w-16 h-16 md:w-20 md:h-20 rounded-full  overflow-hidden bg-slate-200 animate-pulse' key={index+"categoryloading"}></div>
+                <div key={index}>
+                    <div className='w-16 h-16 md:w-20 md:h-20 rounded-full items-center justify-center  overflow-hidden bg-slate-200 animate-pulse' key={index+"categoryloading"}></div>
+                </div>
             )
             })
         ):

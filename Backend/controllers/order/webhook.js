@@ -4,7 +4,7 @@ const orderModel = require('../../models/orderProductModel');
 
 const endpointSecret  = process.env.STRIPE_WEBHOOK_SECRET_KEY
 
-async function getLineItems(lineItems ) {
+async function getLineItems(lineItems ){
   let productItems = []
 
   if(lineItems?.data?.length){
@@ -40,7 +40,6 @@ const webhooks = async(request,response)=>{
   try {
     event = stripe.webhooks.constructEvent(payloadString, header, endpointSecret);
   } catch (err) {
-    console.log(err)
     response.status(400).send(`Webhook Error: ${err.message}`);
     return;
   }
@@ -75,7 +74,6 @@ const webhooks = async(request,response)=>{
 
       if(saveOrder?._id){
         const deleteCartItems = await cartModel.deleteMany({userId : session.metadata.userId});
-
       }
       break;
     // ... handle other event types

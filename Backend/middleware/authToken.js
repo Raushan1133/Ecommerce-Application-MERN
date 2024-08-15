@@ -20,7 +20,7 @@ async function authToken (req,res,next){
 
     } catch (error) {
         res.status(400).json({
-            message:error.message,
+            message:error.message || error,
             data:[],
             error:true,
             success:false

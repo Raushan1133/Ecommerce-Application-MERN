@@ -79,7 +79,6 @@ const UploadProduct = ({onClose,fetchData}) => {
         }
         if(responseData?.error){
             toast(responseData?.message)
-            console.log(responseData)
         }
     }
     

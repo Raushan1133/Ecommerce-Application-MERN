@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import scrollTop from '../helpers/scrollTop'
 import dispalyINRcurrency from '../helpers/DisplayCurrency'
 import Context from '../context'
@@ -6,11 +6,15 @@ import addToCart from '../helpers/addToCart'
 import { Link } from 'react-router-dom'
 
 const VerticalCard = ({loading , data = []}) => {
+    const [addToCartLoading , setAddToCartLoading] = useState(false)
+
     const loadingList = new Array(13).fill(null)
     const { fetchUserAddToCart } = useContext(Context)
 
     const handleAddToCart = async(e,id)=>{
+        setAddToCartLoading(true)
        await addToCart(e,id)
+       setAddToCartLoading(false)
        fetchUserAddToCart()
     }
   return (
@@ -56,6 +60,17 @@ const VerticalCard = ({loading , data = []}) => {
          )
          
      }
+              {
+            addToCartLoading && (
+                <div className='flex justify-center items-center w-full h-[100vh] fixed  top-0 bottom-0 right-0 left-0 '>
+                    <div className='bg-white h-24  w-24 gap-1 flex justify-center  items-center rounded flex-col'>
+                    <div className='h-6 w-6 border-[3px] rounded-full animate-spin text-center border-red-600 border-t-[transparent]'>
+                    </div>
+                        <p className='text-xs'>Adding to cart</p>
+                    </div>
+                 </div>
+            )
+         }
     </div>
   )
 }

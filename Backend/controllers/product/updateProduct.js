@@ -6,7 +6,6 @@ async function updateProduct (req,res){
         if(!uploadProductPermission(req.userId)){
             throw new Error("Permission denied");
         }
-        console.log(req.body)
         const{ _id , ...resBody} = req.body;
         const updateProduct = await productModel.findByIdAndUpdate(_id,resBody);
         res.json({

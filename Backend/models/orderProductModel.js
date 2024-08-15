@@ -22,14 +22,14 @@ const orderSchema = new mongoose.Schema({
         payment_status : {
             type:String,
             default : ""
-        },
-        shipping_options : [],
+        }
+    },
+    shipping_options : [],
         
         totalAmount : {
             type : Number,
             default : 0
         }
-    }
 }, {
     timestamps : true
 })
