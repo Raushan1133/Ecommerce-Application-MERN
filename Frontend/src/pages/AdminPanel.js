@@ -12,8 +12,10 @@ const AdminPanel = () => {
       }
     },[user])
   return (
+    <>
+          <p className='h-[calc(100vh-145px)] sm:h-[calc(100vh-125px)] text-2xl flex items-center justify-center font-semibold text-red-600 md:hidden px-2 text-center' >Please Login on pc or tablet to access Admin Panel</p>
     <div className='min-h-[calc(100vh-120px)] md:flex hidden '>
-        <aside className='bg-white min-h-full w-full max-w-60 customShadow'>
+          <aside className='bg-white min-h-full w-full max-w-60 customShadow'>
             <div className='h-32 flex justify-center items-center flex-col'>
             <div className='text-5xl cursor-pointer relative flex justify-center ' >
             {
@@ -43,6 +45,7 @@ const AdminPanel = () => {
             <Outlet />
         </main> 
     </div>
+    </>
   )
 }
 

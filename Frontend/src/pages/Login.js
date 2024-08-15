@@ -16,6 +16,7 @@ const Login = () => {
     });
 
     const navigate = useNavigate()
+         
     const {fetchUserDetails , fetchUserAddToCart} = useContext(Context)
     const handleOnchange = (e)=>{
         const {name,value} = e.target;
@@ -55,7 +56,7 @@ const Login = () => {
      }
   return (
     <section id='login' >
-        <div className='mx-auto container p-4'>
+        <div className='mx-auto container md:p-4 pb-4 pt-8'>
             <div className='bg-white p-5 py-5 w-full max-w-sm mx-auto rounded'>
                 <div className='w-20 h-20 mx-auto'>
                     <img src={loginIcon} alt='login icon' />

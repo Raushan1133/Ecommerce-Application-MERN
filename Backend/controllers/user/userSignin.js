@@ -27,8 +27,9 @@ async function userSignIn(req,res){
             httpOnly:true,
             secure:true,
             sameSite : 'None',
+            maxAge: 30 * 24 * 60 * 60 * 1000
          }
-         res.cookie("token",token,tokenOption).status(200).json({
+         res.cookie("token",token,tokenOption,).status(200).json({
             message:"Login Successfully",
             data:token,
             success:true,

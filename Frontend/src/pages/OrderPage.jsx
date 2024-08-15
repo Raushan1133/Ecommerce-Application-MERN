@@ -13,7 +13,6 @@ const OrderPage = () => {
 
     const responseData = await response.json();
     setData(responseData?.data)
-    console.log("Order List: " , responseData)
   }
 
   useEffect(()=>{
@@ -23,11 +22,11 @@ const OrderPage = () => {
     <div>
       {
         !data[0] && (
-          <p>No Order available</p>
+          <p className='h-[calc(100vh-145px)] sm:h-[calc(100vh-125px)] text-2xl flex items-center justify-center font-semibold text-red-600' >No Order available</p>
         )
       }
 
-      <div className='p-4 w-full '>
+      <div className='md:p-4 pb-4 pt-10 w-full '>
         {
           data?.map((item,index)=>{
             return(

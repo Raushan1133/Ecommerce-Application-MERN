@@ -20,7 +20,7 @@ const SearchProduct = () => {
         fetchProduct();
     },[query]);
   return (
-    <div className='container mx-auto p-4'>
+    <div className='container mx-auto md:p-4 pb-4 pt-10'>
         {
             loading && (
                 <p className='text-lg text-center'>Loading...</p>
