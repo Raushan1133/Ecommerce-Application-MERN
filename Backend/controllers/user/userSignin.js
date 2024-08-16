@@ -36,7 +36,7 @@ async function userSignIn(req,res){
             error:false
          })
         }else{
-            throw new Error("Please check the password.")
+            throw new Error("Invalid email or password.")
         }
     } catch (error) {
         res.json({

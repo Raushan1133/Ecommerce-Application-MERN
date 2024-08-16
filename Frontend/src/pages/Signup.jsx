@@ -12,6 +12,8 @@ const Signup = () => {
     const [showPassword , setShowPassword] = useState(false)
     const [showConfirmPassword , setShowConfirmPassword] = useState(false)
     const [loading,setLoading] = useState(false);
+    const[checkPassword , setCheckPassword] = useState(false);
+    const [checkConfirmPassword , setCheckConfirmPassword] = useState(false);
     const [imgUploading , setImgUploading] = useState(false)
     const [data,setData] = useState({
         email:"",
@@ -47,30 +49,47 @@ const Signup = () => {
 
      const handleSubmit =async (e)=>{
         e.preventDefault();
-        
-        if(data.password === data.confirmPassword){
-            const dataResponse =await fetch(SummaryApi.signUp.url,{
-                method:SummaryApi.signUp.method,
-                headers :{
-                    "content-type":"application/json"
-                },
-                body : JSON.stringify(data)
-            })
-            setLoading(true)
-            const dataApi = await dataResponse.json()
-            setLoading(false);
-            if(dataApi.success){
-                toast.success(dataApi.message)
-                navigate("/login")
+            const regex = /^(?=.*[!@#$%^&*])(?=.*\d)(?=.*[A-Z]).{8,}$/;
+            if (!regex.test(data.password)) {
+                setCheckPassword(true);
+            }else{
+                if(data.password === data.confirmPassword){
+                    setLoading(true);
+                    const response =await fetch(`https://api.mails.so/v1/validate?email=${data.email}`, {
+                        method: 'GET',
+                        headers: {
+                        'x-mails-api-key': process.env.REACT_APP_APIKEY
+                    }
+                })
+                const result = await response.json();
+                console.log(result)
+                    if(result.data.result === "deliverable"){
+                        const dataResponse =await fetch(SummaryApi.signUp.url,{
+                            method:SummaryApi.signUp.method,
+                            headers :{
+                                "content-type":"application/json"
+                            },
+                            body : JSON.stringify(data)
+                        })
+                        const dataApi = await dataResponse.json()
+                        setLoading(false);
+                        if(dataApi.success){
+                            toast.success("Registered success !")
+                            navigate("/login")
+                        }
+            
+                        if(dataApi.error){
+                            toast.error(dataApi.message);
+                        }
+                    }else{
+                        toast.error("Invalid email !");
+                    }
+                }else{
+                    setCheckConfirmPassword(true);
+                 }
             }
-
-            if(dataApi.error){
-                toast.error(dataApi.message);
-            }
-        }else{
-            toast.error("Please check password and confirm password.")
-         }
-     }
+    
+    }
   return (
     <section id='signup' >
         <div className='mx-auto container md:p-4 pb-4 pt-8'>
@@ -138,6 +157,17 @@ const Signup = () => {
                         </div>
                     </div>
 
+                    {/* Otp */}
+                    <div className='grid hidden'>
+                        <label>OTP : </label>
+                        <div className='p-2 h-full flex justify-between items-center gap-2 '>
+                        <input type="number" className='w-[20%] h-[100%] py-2 text-center text-lg border bg-slate-100 focus:outline-none  h-ful' name="" id="" />
+                        <input type="number" className='w-[20%] h-[100%] py-2 text-center text-lg border bg-slate-100 focus:outline-none  h-ful' name="" id="" />
+                        <input type="number" className='w-[20%] h-[100%] py-2 text-center text-lg border bg-slate-100 focus:outline-none  h-ful' name="" id="" />
+                        <input type="number" className='w-[20%] h-[100%] py-2 text-center text-lg border bg-slate-100 focus:outline-none  h-ful' name="" id="" />
+                        </div>
+                    </div>
+
                     <div className='grid'>
                         <label>Password : </label>
                         <div className='bg-slate-100 p-2 flex'>
@@ -145,7 +175,7 @@ const Signup = () => {
                         name='password' 
                         value={data.password}
                         required
-                        onChange={handleOnchange}
+                        onChange={(e)=>{handleOnchange(e); setCheckPassword(false)}}
                         className='w-full h-full outline-none bg-transparent' />
                         <div className='cursor-pointer text-xl' onClick={()=>{setShowPassword(!showPassword)}}>
                             <span>
@@ -158,7 +188,13 @@ const Signup = () => {
                                 }
                             </span>
                         </div>
+
                         </div>
+                        {
+                            checkPassword && (
+                                <small className='text-red-600 transition-all'>Password must be at least 8 characters long, contain at least one uppercase letter, one digit, and one special character (!@#$%^&*)</small>
+                            )
+                        }
                     </div>
 
                     <div className='grid'>
@@ -168,7 +204,7 @@ const Signup = () => {
                         name='confirmPassword' 
                         required
                         value={data.confirmPassword}
-                        onChange={handleOnchange}
+                        onChange={(e)=>{handleOnchange(e); setCheckConfirmPassword(false)}}
                         className='w-full h-full outline-none bg-transparent' />
                         <div className='cursor-pointer text-xl' onClick={()=>{setShowConfirmPassword(!showConfirmPassword)}}>
                             <span>
@@ -182,6 +218,12 @@ const Signup = () => {
                             </span>
                         </div>
                         </div>
+                        {
+                            checkConfirmPassword && (
+
+                                <small className='text-red-600'>Password and confirm password not matched </small>
+                            )
+                        }
                     </div>
 
                     <button className='bg-red-600 hover:bg-red-700 text-white w-full px-6 py-2   rounded-full hover:scale-110 transition-all mx-auto block mt-6'>{loading ? (<div className='flex justify-center'>

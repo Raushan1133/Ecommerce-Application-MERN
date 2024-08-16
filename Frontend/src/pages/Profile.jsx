@@ -137,7 +137,7 @@ const Profile = () => {
         <div>
             <div className='text-8xl flex justify-center mt-5 rounded'>
             {
-                user?.profilePic ? (
+                data?.profilePic ? (
                   <div>
                     {
                       imgUploading ? (
@@ -163,33 +163,27 @@ const Profile = () => {
                   </div>
                 ):(
                     <div className='relative'>
-                      {
-                        imgUploading ? (
-                          <div className='relative'>
-                            <div>
-                          <div className='flex items-center justify-center mt-6 absolute top-5 left-9 '>
-                          <Loading />
-                          </div>
-                            </div>
-                          <FaUserCircle />
-                          </div>
-                        ) : (
                           <div>
-                            <div className='relative'>  
-                              <div>
+                            <div >  
+                              <div className='relative'>
                             <FaUserCircle />
+                            {
+                              imgUploading && (<div className='flex items-center justify-center absolute top-10 left-9 '>
+                              <Loading />
+                              </div>)
+                            }
                             <label htmlFor="file">
-                            <FaCamera  className='h-10 w-10 ml-auto -mt-12 cursor-pointer text-red-600'/>
+                              {
+                                !imgUploading && (
+                                  <FaCamera  className='h-10 w-10 ml-auto -mt-12 cursor-pointer text-red-600'/>
+
+                                )
+                              }
                               <input type="file" name="file" id="file" className='hidden' onChange={handleUpload} />
                             </label>
                                   </div>
-                                
-                              
                             </div>
                           </div>
-
-                        )
-                      }
                     </div>
                 )
                 }
