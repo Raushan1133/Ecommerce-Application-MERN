@@ -27,7 +27,7 @@ const sendPasswordResetEmail = async (req,res)=>{
             subject:'Raushan Ecommerce Project - password reset link',
             html:`<a href=${link}>Click here </a> to Reset your password`
         });
-        console.log(info);
+        
         res.json({
             info:info,
             message:"Password reset link sent successfully, Please check your email ...",

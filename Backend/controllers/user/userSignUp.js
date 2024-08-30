@@ -22,7 +22,7 @@ async function userSignUp (req,res){
         if(!hashedPassword){
             throw new Error("Something went wrong");
         }
-        const payload = {
+        const payload = { 
             ...req.body,
             role:"GENERAL",
             password:hashedPassword

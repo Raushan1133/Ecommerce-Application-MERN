@@ -49,21 +49,13 @@ const Signup = () => {
 
      const handleSubmit =async (e)=>{
         e.preventDefault();
+           try {
             const regex = /^(?=.*[!@#$%^&*])(?=.*\d)(?=.*[A-Z]).{8,}$/;
             if (!regex.test(data.password)) {
                 setCheckPassword(true);
             }else{
                 if(data.password === data.confirmPassword){
                     setLoading(true);
-                    const response =await fetch(`https://api.mails.so/v1/validate?email=${data.email}`, {
-                        method: 'GET',
-                        headers: {
-                        'x-mails-api-key': process.env.REACT_APP_APIKEY
-                    }
-                })
-                const result = await response.json();
-                console.log(result)
-                    if(result.data.result === "deliverable"){
                         const dataResponse =await fetch(SummaryApi.signUp.url,{
                             method:SummaryApi.signUp.method,
                             headers :{
@@ -81,13 +73,15 @@ const Signup = () => {
                         if(dataApi.error){
                             toast.error(dataApi.message);
                         }
-                    }else{
-                        toast.error("Invalid email !");
-                    }
+                    
                 }else{
                     setCheckConfirmPassword(true);
                  }
             }
+           } catch (error) {
+                setLoading(false);
+                toast.error("Something went wrong , try again later");
+           }
     
     }
   return (
@@ -158,7 +152,7 @@ const Signup = () => {
                     </div>
 
                     {/* Otp */}
-                    <div className='grid hidden'>
+                    <div className='hidden'>
                         <label>OTP : </label>
                         <div className='p-2 h-full flex justify-between items-center gap-2 '>
                         <input type="number" className='w-[20%] h-[100%] py-2 text-center text-lg border bg-slate-100 focus:outline-none  h-ful' name="" id="" />
